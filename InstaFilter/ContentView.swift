@@ -12,6 +12,8 @@ struct ContentView: View {
    
    @State private var filterIntensity: CGFloat = 0.5
    @State private var image: Image?
+   @State private var isShowingImagePickerSheet: Bool = false
+   @State private var uiImage: UIImage?
    
    
    
@@ -25,17 +27,18 @@ struct ContentView: View {
                Rectangle()
                   .fill(Color.secondary)
                // TODO: Display the image.
-            }
-            .onTapGesture {
-               // TODO: Select the image.
                if let _image = image {
                   _image
                      .resizable()
                      .scaledToFit()
                } else {
-                  Text("Select New Image")
-                     .font(.headline)
+                  Text("Place New Image")
+                     .font(.callout)
                }
+            }
+            .onTapGesture {
+               // TODO: Select the image.
+               self.isShowingImagePickerSheet.toggle()
             }
             HStack {
                Text("Intensity")
@@ -55,7 +58,22 @@ struct ContentView: View {
          }
          .padding([.horizontal, .bottom])
          .navigationBarTitle("InstaFilter")
+         .sheet(isPresented: $isShowingImagePickerSheet,
+                onDismiss: loadImage) {
+            ImagePicker(uiImage: $uiImage)
+         }
       }
+   }
+   
+   
+   
+   // MARK: - METHODS
+   
+   func loadImage() {
+      guard let _uiImage = uiImage
+      else { return }
+      
+      image = Image(uiImage: _uiImage)
    }
 }
 
