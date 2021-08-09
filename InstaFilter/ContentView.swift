@@ -3,17 +3,25 @@
 // MARK: - LIBRARIES -
 
 import SwiftUI
-
+import CoreImage
+import CoreImage.CIFilterBuiltins
 
 
 struct ContentView: View {
    
    // MARK: - PROPERTY WRAPPERS
    
-   @State private var filterIntensity: CGFloat = 0.5
+   @State private var filterIntensity: Double = 0.5
    @State private var image: Image?
    @State private var isShowingImagePickerSheet: Bool = false
    @State private var uiImage: UIImage?
+   @State private var selectedFilter = CIFilter.sepiaTone()
+   
+   
+   
+   // MARK: - PROPERTIES
+   
+   let ciContext: CIContext = CIContext()
    
    
    
@@ -21,7 +29,17 @@ struct ContentView: View {
    
    var body: some View {
       
-      NavigationView {
+      let intensity = Binding<Double>(
+         get: {
+            self.filterIntensity
+         },
+         set: {
+            self.filterIntensity = $0
+            self.processImage()
+         })
+      
+      
+      return NavigationView {
          VStack {
             ZStack {
                Rectangle()
@@ -42,8 +60,21 @@ struct ContentView: View {
             }
             HStack {
                Text("Intensity")
-               Slider(value: $filterIntensity,
+               /// Even though the slider is changing the value of filterIntensity,
+               /// changing that property won’t automatically trigger our `procesImage()` method again.
+               /// Instead, we need to do that by hand,
+               /// and it’s not as easy as just creating a property observer on `filterIntensity`
+               /// because they don’t work well thanks to the `@State` property wrapper being used.
+               // Slider(value: $filterIntensity,
+               /// Instead, what we need is a _custom binding_
+               /// that will return `filterIntensity` when it is read,
+               /// but when it is written
+               /// it will both update `filterIntensity` and also call `procesImage()`
+               /// so that the latest intensity setting is immediately used in our filter .
+               Slider(value: intensity,
                       in: 0...1)
+               /// Remember, because intensity is already a binding,
+               /// we don’t need to use a dollar sign before it .
             }
             .padding()
             HStack {
@@ -73,7 +104,26 @@ struct ContentView: View {
       guard let _uiImage = uiImage
       else { return }
       
-      image = Image(uiImage: _uiImage)
+      // image = Image(uiImage: _uiImage)
+      let ciImage = CIImage(image: _uiImage)
+      selectedFilter.setValue(ciImage,
+                              forKey: kCIInputImageKey)
+      processImage()
+   }
+   
+   
+   func processImage() {
+      
+      selectedFilter.intensity = Float(filterIntensity)
+      
+      guard let _outputImage = selectedFilter.outputImage
+      else { return }
+      
+      if let _cgImage = ciContext.createCGImage(_outputImage,
+                                                from: _outputImage.extent) {
+         let uiImage = UIImage(cgImage: _cgImage)
+         image = Image(uiImage: uiImage)
+      }
    }
 }
 
