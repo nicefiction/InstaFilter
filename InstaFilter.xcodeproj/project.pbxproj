@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		092F30CF26C280DB00CD0D33 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092F30CE26C280DA00CD0D33 /* ImageSaver.swift */; };
 		09C82E3F26C11721000F46AD /* InstaFilterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C82E3E26C11721000F46AD /* InstaFilterApp.swift */; };
 		09C82E4126C11721000F46AD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C82E4026C11721000F46AD /* ContentView.swift */; };
 		09C82E4326C11725000F46AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09C82E4226C11725000F46AD /* Assets.xcassets */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		092F30CE26C280DA00CD0D33 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		09C82E3B26C11721000F46AD /* InstaFilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstaFilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C82E3E26C11721000F46AD /* InstaFilterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstaFilterApp.swift; sourceTree = "<group>"; };
 		09C82E4026C11721000F46AD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				09C82E4426C11725000F46AD /* Preview Content */,
 				09C82E4E26C11FE7000F46AD /* ImagePicker.swift */,
 				09C82E5126C120A9000F46AD /* ImagePicker+UIViewControllerRepresentable.swift */,
+				092F30CE26C280DA00CD0D33 /* ImageSaver.swift */,
 			);
 			path = InstaFilter;
 			sourceTree = "<group>";
@@ -146,6 +149,7 @@
 			files = (
 				09C82E4F26C11FE7000F46AD /* ImagePicker.swift in Sources */,
 				09C82E4126C11721000F46AD /* ContentView.swift in Sources */,
+				092F30CF26C280DB00CD0D33 /* ImageSaver.swift in Sources */,
 				09C82E3F26C11721000F46AD /* InstaFilterApp.swift in Sources */,
 				09C82E5226C120A9000F46AD /* ImagePicker+UIViewControllerRepresentable.swift in Sources */,
 			);

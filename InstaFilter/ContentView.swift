@@ -1,4 +1,6 @@
 // ContentView.swift
+// MARK: SOURCE
+// https://www.hackingwithswift.com/books/ios-swiftui/customizing-our-filter-using-actionsheet
 
 // MARK: - LIBRARIES -
 
@@ -13,8 +15,9 @@ struct ContentView: View {
    
    @State private var filterIntensity: Double = 0.5
    @State private var image: Image?
-   @State private var isShowingImagePickerSheet: Bool = false
    @State private var uiImage: UIImage?
+   @State private var processedUIImage: UIImage?
+   @State private var isShowingImagePickerSheet: Bool = false
    // @State private var selectedFilter = CIFilter.sepiaTone()
    @State private var selectedFilter: CIFilter = CIFilter.sepiaTone()
    @State private var isShowingFilterActionSheet: Bool = false
@@ -81,12 +84,20 @@ struct ContentView: View {
             .padding()
             HStack {
                Button("Change Filter") {
-                  // TODO: Chenge the filter.
                   self.isShowingFilterActionSheet.toggle()
                }
                Spacer()
                Button("Save") {
-                  // TODO: Save the image.
+                  guard let _processedUIImage = self.processedUIImage
+                  else { return }
+                  
+                  let imageSaver = ImageSaver()
+                  imageSaver.succesHandler = { print("Succes!") }
+                  imageSaver.errorHandler = { (error: Error) in
+                     print("Oops: \(error.localizedDescription)")
+                  }
+                  
+                  imageSaver.writeToPhotoAlbum(image: _processedUIImage)
                }
             }
          }
@@ -150,6 +161,7 @@ struct ContentView: View {
                                                 from: _outputImage.extent) {
          let uiImage = UIImage(cgImage: _cgImage)
          image = Image(uiImage: uiImage)
+         processedUIImage = uiImage
       }
    }
    
