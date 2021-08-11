@@ -23,6 +23,7 @@ struct ContentView: View {
    @State private var isShowingFilterActionSheet: Bool = false
    @State private var isShowingErrorAlert: Bool = false
    @State private var activeFilter: String = "Sepia Tone"
+   @State private var filterRadius: Double = 180
    
    
    
@@ -46,6 +47,17 @@ struct ContentView: View {
          })
       
       
+      let radius = Binding<Double>(
+         get: {
+            self.filterRadius
+         },
+         set: {
+            self.filterRadius = $0
+            self.processImage()
+         }
+      )
+      
+      
       return NavigationView {
          VStack {
             ZStack {
@@ -65,23 +77,34 @@ struct ContentView: View {
                // TODO: Select the image.
                self.isShowingImagePickerSheet.toggle()
             }
-            HStack {
-               Text("Intensity")
-               /// Even though the slider is changing the value of filterIntensity,
-               /// changing that property won’t automatically trigger our `procesImage()` method again.
-               /// Instead, we need to do that by hand,
-               /// and it’s not as easy as just creating a property observer on `filterIntensity`
-               /// because they don’t work well thanks to the `@State` property wrapper being used.
-               // Slider(value: $filterIntensity,
-               /// Instead, what we need is a _custom binding_
-               /// that will return `filterIntensity` when it is read,
-               /// but when it is written
-               /// it will both update `filterIntensity` and also call `procesImage()`
-               /// so that the latest intensity setting is immediately used in our filter .
-               Slider(value: intensity,
-                      in: 0...1)
-               /// Remember, because intensity is already a binding,
-               /// we don’t need to use a dollar sign before it .
+            Group {
+               if selectedFilter.inputKeys.contains(kCIInputIntensityKey) || selectedFilter.inputKeys.contains(kCIInputScaleKey) {
+                  HStack {
+                     Text("Intensity")
+                     /// Even though the slider is changing the value of filterIntensity,
+                     /// changing that property won’t automatically trigger our `procesImage()` method again.
+                     /// Instead, we need to do that by hand,
+                     /// and it’s not as easy as just creating a property observer on `filterIntensity`
+                     /// because they don’t work well thanks to the `@State` property wrapper being used.
+                     // Slider(value: $filterIntensity,
+                     /// Instead, what we need is a _custom binding_
+                     /// that will return `filterIntensity` when it is read,
+                     /// but when it is written
+                     /// it will both update `filterIntensity` and also call `procesImage()`
+                     /// so that the latest intensity setting is immediately used in our filter .
+                     Slider(value: intensity,
+                            in: 0...1)
+                     /// Remember, because intensity is already a binding,
+                     /// we don’t need to use a dollar sign before it .
+                  }
+               }
+               if selectedFilter.inputKeys.contains(kCIInputRadiusKey) {
+                  HStack {
+                     Text("Radius")
+                     Slider(value: radius,
+                            in: 0...360)
+                  }
+               }
             }
             .padding()
             HStack {
@@ -173,7 +196,8 @@ struct ContentView: View {
       if inputKeys.contains(kCIInputIntensityKey) { selectedFilter.setValue(filterIntensity,
                                                                             forKey: kCIInputIntensityKey) }
       
-      if inputKeys.contains(kCIInputRadiusKey) { selectedFilter.setValue(filterIntensity * 200,
+      // if inputKeys.contains(kCIInputRadiusKey) { selectedFilter.setValue(filterIntensity * 200,
+      if inputKeys.contains(kCIInputRadiusKey) { selectedFilter.setValue(filterRadius,
                                                                          forKey: kCIInputRadiusKey) }
       
       if inputKeys.contains(kCIInputScaleKey) { selectedFilter.setValue(filterIntensity * 10,
