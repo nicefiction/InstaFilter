@@ -59,13 +59,12 @@
 			isa = PBXGroup;
 			children = (
 				09C82E3E26C11721000F46AD /* InstaFilterApp.swift */,
-				09C82E4026C11721000F46AD /* ContentView.swift */,
-				09C82E4226C11725000F46AD /* Assets.xcassets */,
 				09C82E4726C11725000F46AD /* Info.plist */,
+				09F8B6A326D1311400943017 /* Model */,
+				09F8B6A626D1313F00943017 /* ViewModel */,
+				09F8B6A426D1311F00943017 /* View */,
+				09C82E4226C11725000F46AD /* Assets.xcassets */,
 				09C82E4426C11725000F46AD /* Preview Content */,
-				09C82E4E26C11FE7000F46AD /* ImagePicker.swift */,
-				09C82E5126C120A9000F46AD /* ImagePicker+UIViewControllerRepresentable.swift */,
-				092F30CE26C280DA00CD0D33 /* ImageSaver.swift */,
 			);
 			path = InstaFilter;
 			sourceTree = "<group>";
@@ -76,6 +75,31 @@
 				09C82E4526C11725000F46AD /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		09F8B6A326D1311400943017 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				092F30CE26C280DA00CD0D33 /* ImageSaver.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		09F8B6A426D1311F00943017 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				09C82E4026C11721000F46AD /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		09F8B6A626D1313F00943017 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				09C82E4E26C11FE7000F46AD /* ImagePicker.swift */,
+				09C82E5126C120A9000F46AD /* ImagePicker+UIViewControllerRepresentable.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

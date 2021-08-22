@@ -176,6 +176,7 @@ struct ContentView: View {
    // MARK: - METHODS
    
    func loadImage() {
+      
       guard let _uiImage = uiImage
       else { return }
       
